@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { block } from 'million';
 import * as lzString from 'lz-string';
 import * as users from '../../lib/users';
 
@@ -196,6 +197,16 @@ class Browse extends Component {
 
     const files = (selectedDirectory.files || [])
       .map(f => ({ ...f, filename: `${name}${separator}${f.filename}` }));
+    
+    function Tree() {
+      return (<DirectoryTree
+        tree={tree}
+        selectedDirectoryName={name}
+        onSelect={(_, value) => this.selectDirectory(value)}
+      />);
+    }
+
+    const TreeBlock = block(Tree);
 
     return (
       <div className='search-container'>
@@ -243,11 +254,7 @@ class Browse extends Component {
                         </span>
                       </Card.Meta>
                       <Segment className='browse-folderlist'>
-                        <DirectoryTree 
-                          tree={tree} 
-                          selectedDirectoryName={name}
-                          onSelect={(_, value) => this.selectDirectory(value)}
-                        />
+                        <TreeBlock/>
                       </Segment>
                     </Card.Content>
                   </Card>}
